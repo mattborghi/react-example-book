@@ -1,9 +1,16 @@
+import { useEffect, useRef } from 'react';
 import './Search.css';
 
-export function Search({value, onChange}) {
+export function Search({ value, onChange, isFocused }) {
+    const inputRef = useRef();
+
+    useEffect(() => {
+        if (isFocused && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isFocused]);
+
     return (
-        <div className="Search">
-            <input type="text" value={value} onChange={onChange} placeholder="Filter titles" />
-        </ div>
+        <input ref={inputRef} className="Search" type="text" value={value} onChange={onChange} placeholder="Filter titles" />
     )
 }

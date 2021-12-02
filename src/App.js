@@ -10,11 +10,10 @@ const useSemiPersistentState = (key, initialState) => {
   const [value, setValue] = useState(localStorage.getItem(key) || initialState);
   useEffect(() => {
     localStorage.setItem(key, value);
-  }, [value])
+  }, [value, key])
 
   return [value, setValue];
 }
-
 
 function App({ data }) {
   const [count, setCount] = useState(true);
@@ -28,8 +27,6 @@ function App({ data }) {
   const handleSearch = (e) => {
     setSearch(e.target.value);
   }
-
-  
 
   // TODO: Add local storage for count
 
@@ -55,7 +52,7 @@ function App({ data }) {
       <br />
       <Button title="Click me!" onClick={handleClick} />
       <br />
-      <Search value={search} onChange={handleSearch} />
+      <Search value={search} onChange={handleSearch} isFocused />
       <List values={searchedItems} displayCallback={showItem} />
     </div>
   );
