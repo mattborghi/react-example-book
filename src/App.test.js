@@ -3,7 +3,7 @@ import App from './App';
 
 const data = [
   {
-    id: 0,
+    objectID: 0,
     title: 'The title',
     name: 'My name'
   }
