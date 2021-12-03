@@ -1,15 +1,17 @@
 import { Button } from '../../components/button/Button.js';
 
-import './List.css';
-
 function Item({ item, onRemoveItem }) {
-  const { id, title, author } = item;
+  const { id, url, title, author } = item;
   return (
-    <li className="List-item" key={id}>
+    <li className="item" key={id}>
 
-      <strong>{title}</strong>
-      <p>Hello {author}!</p>
-      <Button title="Remove" onClick={() => onRemoveItem(item)} />
+      <span style={{ width: '60%' }}>
+        <a href={url}>{title}</a>
+      </span>
+      <span style={{ width: '30%' }}>{author}</span>
+      <span style={{ width: '10%' }}>
+        <Button title="Remove" onClick={() => onRemoveItem(item)} />
+      </span>
     </li>
   )
 }

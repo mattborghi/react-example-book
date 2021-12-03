@@ -1,8 +1,5 @@
-import './Button.css';
-
 export function Button({title, onClick}) {
-
     return (
-        <button className="Button" onClick={onClick}>{title}</button>
+        <button className="button button_small" onClick={onClick}>{title}</button>
     );
 }

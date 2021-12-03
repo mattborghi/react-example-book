@@ -25,10 +25,11 @@ function App({ data, isLoading, isError, searchTerm, setSearchTerm, handleSearch
   }
 
   return (
-    <div className="App">
+    <div className="container">
+      <h1 className="headline-primary">Hacker News</h1>
       <SearchForm searchTerm={searchTerm} onSearchInput={handleSearch} onSearchSubmit={handleSearchSubmit} />
-      {isError && <h1>Something went wrong...</h1>}
-      {isLoading ? <h1>Loading...</h1> :
+      {isError && <strong>Something went wrong...</strong>}
+      {isLoading ? <strong>Loading...</strong> :
         <List values={data} onRemoveItem={handleRemoveItem} />
       }
     </div>

@@ -13,5 +13,5 @@ test('show expected title and name data', () => {
   const { title, author } = data[0]
   render(<App data={data} isLoading={false} isError={false} searchTerm={'react'} setSearchTerm={()=>null} />);
   expect(screen.getByText(title)).toBeInTheDocument();
-  expect(screen.getByText(`Hello ${author}!`)).toBeInTheDocument();
+  expect(screen.getByText(author)).toBeInTheDocument();
 })

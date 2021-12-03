@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import './Search.css';
 
 export function Search({ value, onChange, isFocused }) {
     const inputRef = useRef();
@@ -11,6 +10,6 @@ export function Search({ value, onChange, isFocused }) {
     }, [isFocused]);
 
     return (
-        <input ref={inputRef} className="Search" type="text" value={value} onChange={onChange} placeholder="Filter titles" />
+        <input ref={inputRef} className="input" type="text" value={value} onChange={onChange} placeholder="Filter titles" />
     )
 }
