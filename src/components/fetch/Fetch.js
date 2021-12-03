@@ -27,6 +27,7 @@ const initialData = [{
 const getAsyncData = () =>
     new Promise((resolve, reject) =>
         setTimeout(
+            // (un)comment if you want data failure
             () => resolve({ data: initialData }),
             // reject,
             2000
