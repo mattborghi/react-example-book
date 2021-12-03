@@ -25,14 +25,17 @@ const data = [{
 
 // simulate getting the data async
 const getAsyncData = () =>
-    new Promise(resolve =>
+    new Promise((resolve, reject) =>
         setTimeout(
             () => resolve({ data: data }),
+            // reject,
             2000
         )
     );
 
 export function Fetch() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
     const [stories, setStories] = useState([])
 
     // useEffect(() => {
@@ -41,10 +44,16 @@ export function Fetch() {
 
 
     useEffect(() => {
-        getAsyncData().then(res => {
-            setStories(res.data);
-        })
+        setIsLoading(true);
+        getAsyncData()
+            .then(res => {
+                setStories(res.data);
+                setIsLoading(false);
+            })
+            .catch(err => {
+                setIsError(true);
+            })
     }, []);
 
-    return <App key={stories} data={stories} />;
+    return <App key={stories} data={stories} isLoading={isLoading} isError={isError} />;
 }

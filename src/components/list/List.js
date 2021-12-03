@@ -15,7 +15,6 @@ function Item({ item, onRemoveItem }) {
 export function List({ values, onRemoveItem }) {
   return (
     <ul>
-      {values.length === 0 && <h1>No items</h1>}
       {values.map(item => {
         return <Item key={item.id} item={item} onRemoveItem={onRemoveItem} />
       })}

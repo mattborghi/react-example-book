@@ -14,7 +14,7 @@ const useSemiPersistentState = (key, initialState) => {
   return [value, setValue];
 }
 
-function App({ data }) {
+function App({ data, isLoading, isError }) {
   const [stories, setStories] = useState(data);
   const [search, setSearch] = useSemiPersistentState('search', '');
 
@@ -38,7 +38,10 @@ function App({ data }) {
   return (
     <div className="App">
       <Search value={search} onChange={handleSearch} isFocused />
-      <List values={searchedItems} onRemoveItem={handleRemoveItem} />
+      {isError && <h1>Something went wrong...</h1>}
+      {isLoading ? <h1>Loading...</h1> :
+        <List values={searchedItems} onRemoveItem={handleRemoveItem} />
+      }
     </div>
   );
 }
