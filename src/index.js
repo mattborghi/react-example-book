@@ -1,33 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import {Fetch} from './components/fetch/Fetch';
 import reportWebVitals from './reportWebVitals';
-
-const data = [{
-  id: 0,
-  title: "React App",
-  name: "Matias",
-},
-{
-  id: 1,
-  title: "React App 2",
-  name: "Another name",
-},
-{
-  id: 2,
-  title: "React App 3",
-  name: "Another name",
-},
-{
-  id: 3,
-  title: "React App 4",
-  name: "Another name",
-}]
 
 ReactDOM.render(
   <React.StrictMode>
-    <App data={data} />
+    <Fetch />
   </React.StrictMode>,
   document.getElementById('root')
 );

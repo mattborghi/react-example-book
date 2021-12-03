@@ -14,7 +14,7 @@ const useSemiPersistentState = (key, initialState) => {
   return [value, setValue];
 }
 
-function App({data}) {
+function App({ data }) {
   const [stories, setStories] = useState(data);
   const [search, setSearch] = useSemiPersistentState('search', '');
 
