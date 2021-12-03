@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import App from "../../App";
+import { useSemiPersistentState } from '../../hooks/useSemiPersistentState';
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
@@ -29,6 +30,7 @@ const storiesReducer = (state, action) => {
 }
 
 export function Fetch() {
+    const [searchTerm, setSearchTerm] = useSemiPersistentState('seach', 'React');
     const [{ data, isLoading, isError }, dispatchStories] = useReducer(
         storiesReducer,
         { data: [], isLoading: false, isError: false }
@@ -39,8 +41,10 @@ export function Fetch() {
     // }, [data])
 
     useEffect(() => {
+        if (!searchTerm) return;
+
         dispatchStories({ type: "STORIES_FETCH_INIT" });
-        fetch(`${API_ENDPOINT}react`)
+        fetch(`${API_ENDPOINT}${searchTerm}`)
             .then(res => res.json())
             .then(res => {
                 dispatchStories({ type: "SET_STORIES_SUCCESS", payload: res.hits });
@@ -48,7 +52,7 @@ export function Fetch() {
             .catch(err => {
                 dispatchStories({ type: "STORIES_FETCH_FAILURE" });
             })
-    }, []);
+    }, [searchTerm]);
 
-    return <App key={data} data={data} isLoading={isLoading} isError={isError} />;
+    return <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />;
 }

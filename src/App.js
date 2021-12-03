@@ -1,30 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import { Search } from './components/search/Search';
 import { List } from './components/list/List';
 
-// general hook independently of search
-const useSemiPersistentState = (key, initialState) => {
-  const [value, setValue] = useState(localStorage.getItem(key) || initialState);
-  useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [value, key])
-
-  return [value, setValue];
-}
-
-function App({ data, isLoading, isError }) {
+function App({ data, isLoading, isError, searchTerm, setSearchTerm }) {
   const [stories, setStories] = useState(data);
-  const [search, setSearch] = useSemiPersistentState('search', '');
 
   const handleSearch = (e) => {
-    setSearch(e.target.value);
+    setSearchTerm(e.target.value);
   }
 
   // Filter items containing string
   const searchedItems = stories.filter(({ title }) => {
-    return title.toLowerCase().includes(search.toLowerCase());
+    return title.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   // Remove an item from the list
@@ -37,7 +26,7 @@ function App({ data, isLoading, isError }) {
 
   return (
     <div className="App">
-      <Search value={search} onChange={handleSearch} isFocused />
+      <Search value={searchTerm} onChange={handleSearch} isFocused />
       {isError && <h1>Something went wrong...</h1>}
       {isLoading ? <h1>Loading...</h1> :
         <List values={searchedItems} onRemoveItem={handleRemoveItem} />
