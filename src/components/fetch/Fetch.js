@@ -43,8 +43,9 @@ export function Fetch() {
     //     console.log("fetch: ", data)
     // }, [data])
 
-    const handleSearchSubmit = () => {
+    const handleSearchSubmit = (event) => {
         setUrl(`${API_ENDPOINT}${searchTerm}`);
+        event.preventDefault(); // prevent page refresh, HTML native behavior
     }
 
     // memoized function

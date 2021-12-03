@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
-import { Search } from './components/search/Search';
+import { SearchForm } from './components/search_form/SearchForm';
 import { List } from './components/list/List';
 
 function App({ data, isLoading, isError, searchTerm, setSearchTerm, handleSearchSubmit }) {
@@ -26,8 +26,7 @@ function App({ data, isLoading, isError, searchTerm, setSearchTerm, handleSearch
 
   return (
     <div className="App">
-      <Search value={searchTerm} onChange={handleSearch} isFocused />
-      <button onClick={handleSearchSubmit}>Submit</button>
+      <SearchForm searchTerm={searchTerm} onSearchInput={handleSearch} onSearchSubmit={handleSearchSubmit} />
       {isError && <h1>Something went wrong...</h1>}
       {isLoading ? <h1>Loading...</h1> :
         <List values={data} onRemoveItem={handleRemoveItem} />
