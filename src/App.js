@@ -4,7 +4,7 @@ import './App.css';
 import { Search } from './components/search/Search';
 import { List } from './components/list/List';
 
-function App({ data, isLoading, isError, searchTerm, setSearchTerm }) {
+function App({ data, isLoading, isError, searchTerm, setSearchTerm, handleSearchSubmit }) {
   const [stories, setStories] = useState(data);
 
   const handleSearch = (e) => {
@@ -12,9 +12,9 @@ function App({ data, isLoading, isError, searchTerm, setSearchTerm }) {
   }
 
   // Filter items containing string
-  const searchedItems = stories.filter(({ title }) => {
-    return title.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // const searchedItems = stories.filter(({ title }) => {
+  //   return title.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   // Remove an item from the list
   const handleRemoveItem = item => {
@@ -27,9 +27,10 @@ function App({ data, isLoading, isError, searchTerm, setSearchTerm }) {
   return (
     <div className="App">
       <Search value={searchTerm} onChange={handleSearch} isFocused />
+      <button onClick={handleSearchSubmit}>Submit</button>
       {isError && <h1>Something went wrong...</h1>}
       {isLoading ? <h1>Loading...</h1> :
-        <List values={searchedItems} onRemoveItem={handleRemoveItem} />
+        <List values={data} onRemoveItem={handleRemoveItem} />
       }
     </div>
   );

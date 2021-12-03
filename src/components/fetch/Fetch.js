@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState, useCallback } from "react";
 import App from "../../App";
 import { useSemiPersistentState } from '../../hooks/useSemiPersistentState';
 
@@ -31,6 +31,7 @@ const storiesReducer = (state, action) => {
 
 export function Fetch() {
     const [searchTerm, setSearchTerm] = useSemiPersistentState('seach', 'React');
+    const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
     const [{ data, isLoading, isError }, dispatchStories] = useReducer(
         storiesReducer,
         { data: [], isLoading: false, isError: false }
@@ -40,11 +41,16 @@ export function Fetch() {
     //     console.log("fetch: ", data)
     // }, [data])
 
-    useEffect(() => {
-        if (!searchTerm) return;
+    const handleSearchSubmit = () => {
+        setUrl(`${API_ENDPOINT}${searchTerm}`);
+    }
+
+    // memoized function
+    const handleFetchStories = useCallback(() => {
+        // if (!searchTerm) return;
 
         dispatchStories({ type: "STORIES_FETCH_INIT" });
-        fetch(`${API_ENDPOINT}${searchTerm}`)
+        fetch(url)
             .then(res => res.json())
             .then(res => {
                 dispatchStories({ type: "SET_STORIES_SUCCESS", payload: res.hits });
@@ -52,7 +58,14 @@ export function Fetch() {
             .catch(err => {
                 dispatchStories({ type: "STORIES_FETCH_FAILURE" });
             })
-    }, [searchTerm]);
+    }, [url]);
 
-    return <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />;
+    // use data fetching logic outside of useEffect
+    useEffect(() => {
+        handleFetchStories();
+    }, [handleFetchStories]);
+
+    return (
+        <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchSubmit={handleSearchSubmit}/>
+    );
 }

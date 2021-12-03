@@ -1,12 +1,14 @@
 import { Button } from '../../components/button/Button.js';
 
-function Item({ item, onRemoveItem }) {
-  const { id, title, name } = item;
-  return (
-    <li className="App-item" key={id}>
+import './List.css';
 
-      <h1>{title}</h1>
-      <h2>Hello {name}!</h2>
+function Item({ item, onRemoveItem }) {
+  const { id, title, author } = item;
+  return (
+    <li className="List-item" key={id}>
+
+      <strong>{title}</strong>
+      <p>Hello {author}!</p>
       <Button title="Remove" onClick={() => onRemoveItem(item)} />
     </li>
   )
