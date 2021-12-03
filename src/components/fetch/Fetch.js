@@ -48,17 +48,15 @@ export function Fetch() {
     }
 
     // memoized function
-    const handleFetchStories = useCallback(() => {
+    const handleFetchStories = useCallback(async () => {
 
         dispatchStories({ type: "STORIES_FETCH_INIT" });
-        axios
-            .get(url)
-            .then(res => {
-                dispatchStories({ type: "SET_STORIES_SUCCESS", payload: res.data.hits });
-            })
-            .catch(err => {
-                dispatchStories({ type: "STORIES_FETCH_FAILURE" });
-            })
+        try {
+            const result = await axios(url);
+            dispatchStories({ type: "SET_STORIES_SUCCESS", payload: result.data.hits });
+        } catch {
+            dispatchStories({ type: "STORIES_FETCH_FAILURE" });
+        }
     }, [url]);
 
     // use data fetching logic outside of useEffect
@@ -67,6 +65,6 @@ export function Fetch() {
     }, [handleFetchStories]);
 
     return (
-        <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchSubmit={handleSearchSubmit}/>
+        <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchSubmit={handleSearchSubmit} />
     );
 }
