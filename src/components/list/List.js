@@ -1,20 +1,23 @@
-export function List({values, displayCallback}) {
-    return (
-        <ul>
-        {values.map(item => {
-          const { id, title, name } = item;
-          return (
+import { Button } from '../../components/button/Button.js';
 
-            <li className="App-item" key={id}>
-              {displayCallback(id) &&
-                <>
-                  <h1>{title}</h1>
-                  <h2>Hello {name}!</h2>
-                </>
-              }
-            </li>
-          )
-        })}
-      </ul>
-    )
+function Item({ item, onRemoveItem }) {
+  const { id, title, name } = item;
+  return (
+    <li className="App-item" key={id}>
+
+      <h1>{title}</h1>
+      <h2>Hello {name}!</h2>
+      <Button title="Remove" onClick={() => onRemoveItem(item)} />
+    </li>
+  )
+}
+
+export function List({ values, onRemoveItem }) {
+  return (
+    <ul>
+      {values.map(item => {
+        return <Item key={item.id} item={item} onRemoveItem={onRemoveItem} />
+      })}
+    </ul>
+  )
 }
