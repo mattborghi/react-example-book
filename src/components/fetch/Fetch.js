@@ -44,23 +44,16 @@ export function Fetch() {
         { data: [], isLoading: false, isError: false }
     );
 
-    // useEffect(() => {
-    //     console.log("fetch: ", data)
-    // }, [data])
-
     const handleSearchSubmit = (event) => {
         setUrl(`${API_ENDPOINT}${searchTerm}`);
         event.preventDefault(); // prevent page refresh, HTML native behavior
     }
 
     // Remove an item from the list
-    const handleRemoveItem = item => {
-        // const newList = stories.filter(({ objectID }) => {
-        //     return objectID !== item.objectID;
-        // });
-        // setStories(newList);
+    // use the useCallback to avoid creating a new function every time the button is clicked
+    const handleRemoveItem = useCallback(item => {
         dispatchStories({ type: "REMOVE_STORY", payload: item });
-    }
+    }, []);
 
     // memoized function
     const handleFetchStories = useCallback(async () => {

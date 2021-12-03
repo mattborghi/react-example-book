@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import { Button } from '../../components/button/Button.js';
 
 import { ReactComponent as Check } from '../../assets/check.svg';
@@ -12,13 +14,14 @@ function Item({ item, onRemoveItem }) {
       </span>
       <span style={{ width: '30%' }}>{author}</span>
       <span style={{ width: '10%' }}>
-        <Button onClick={() => onRemoveItem(item)}><Check width="18px" height="18px"/></Button>
+        <Button onClick={() => onRemoveItem(item)}><Check width="18px" height="18px" /></Button>
       </span>
     </li>
   )
 }
 
 export function List({ values, onRemoveItem }) {
+  console.log("B:List")
   return (
     <ul>
       {values.map(item => {
@@ -27,3 +30,5 @@ export function List({ values, onRemoveItem }) {
     </ul>
   )
 }
+
+export const MemoizedList = memo(List);
