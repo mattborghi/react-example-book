@@ -23,14 +23,14 @@ function App({ data, isLoading, isError }) {
   }
 
   // Filter items containing string
-  const searchedItems = stories.filter(({ name }) => {
-    return name.toLowerCase().includes(search.toLowerCase());
+  const searchedItems = stories.filter(({ title }) => {
+    return title.toLowerCase().includes(search.toLowerCase());
   });
 
   // Remove an item from the list
   const handleRemoveItem = item => {
-    const newList = stories.filter(({ id }) => {
-      return id !== item.id;
+    const newList = stories.filter(({ objectID }) => {
+      return objectID !== item.objectID;
     });
     setStories(newList);
   }

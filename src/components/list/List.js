@@ -16,7 +16,7 @@ export function List({ values, onRemoveItem }) {
   return (
     <ul>
       {values.map(item => {
-        return <Item key={item.id} item={item} onRemoveItem={onRemoveItem} />
+        return <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
       })}
     </ul>
   )
