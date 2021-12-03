@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { useEffect, useReducer, useState, useCallback } from "react";
 import App from "../../App";
 import { useSemiPersistentState } from '../../hooks/useSemiPersistentState';
@@ -47,13 +49,12 @@ export function Fetch() {
 
     // memoized function
     const handleFetchStories = useCallback(() => {
-        // if (!searchTerm) return;
 
         dispatchStories({ type: "STORIES_FETCH_INIT" });
-        fetch(url)
-            .then(res => res.json())
+        axios
+            .get(url)
             .then(res => {
-                dispatchStories({ type: "SET_STORIES_SUCCESS", payload: res.hits });
+                dispatchStories({ type: "SET_STORIES_SUCCESS", payload: res.data.hits });
             })
             .catch(err => {
                 dispatchStories({ type: "STORIES_FETCH_FAILURE" });
