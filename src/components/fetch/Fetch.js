@@ -27,6 +27,11 @@ const storiesReducer = (state, action) => {
                 isLoading: false,
                 isError: true,
             };
+        case "REMOVE_STORY":
+            return {
+                ...state,
+                data: state.data.filter(story => story.objectID !== action.payload.objectID),
+            };
         default: throw new Error("Unknown action type");
     }
 }
@@ -48,6 +53,15 @@ export function Fetch() {
         event.preventDefault(); // prevent page refresh, HTML native behavior
     }
 
+    // Remove an item from the list
+    const handleRemoveItem = item => {
+        // const newList = stories.filter(({ objectID }) => {
+        //     return objectID !== item.objectID;
+        // });
+        // setStories(newList);
+        dispatchStories({ type: "REMOVE_STORY", payload: item });
+    }
+
     // memoized function
     const handleFetchStories = useCallback(async () => {
 
@@ -66,6 +80,6 @@ export function Fetch() {
     }, [handleFetchStories]);
 
     return (
-        <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchSubmit={handleSearchSubmit} />
+        <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchSubmit={handleSearchSubmit} handleRemoveItem={handleRemoveItem} />
     );
 }
