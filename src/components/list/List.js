@@ -1,5 +1,7 @@
 import { Button } from '../../components/button/Button.js';
 
+import { ReactComponent as Check } from '../../assets/check.svg';
+
 function Item({ item, onRemoveItem }) {
   const { id, url, title, author } = item;
   return (
@@ -10,7 +12,7 @@ function Item({ item, onRemoveItem }) {
       </span>
       <span style={{ width: '30%' }}>{author}</span>
       <span style={{ width: '10%' }}>
-        <Button title="Remove" onClick={() => onRemoveItem(item)} />
+        <Button onClick={() => onRemoveItem(item)}><Check width="18px" height="18px"/></Button>
       </span>
     </li>
   )
