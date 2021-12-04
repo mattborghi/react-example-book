@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 
 // general hook independently of search
-export const useSemiPersistentState = (key, initialState) => {
+export const useSemiPersistentState = (
+  key: string,
+  initialState: string
+): [string, (newValue: string) => void] => {
   const isMounted = useRef(false);
-  
+
   const [value, setValue] = useState(localStorage.getItem(key) || initialState);
 
   useEffect(() => {
@@ -13,6 +16,6 @@ export const useSemiPersistentState = (key, initialState) => {
     } else {
       localStorage.setItem(key, value);
     }
-  }, [value, key])
+  }, [value, key]);
   return [value, setValue];
-}
+};

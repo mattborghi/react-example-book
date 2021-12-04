@@ -1,14 +1,16 @@
 import axios from 'axios';
 
-import { useEffect, useReducer, useState, useCallback } from "react";
+import React, { useEffect, useReducer, useState, useCallback } from "react";
 import App from "../../App";
 import { useSemiPersistentState } from '../../hooks/useSemiPersistentState';
 
+import {StoriesAction, StoriesState} from './action_types';
+
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
-const storiesReducer = (state, action) => {
+const storiesReducer = (state: StoriesState, action: StoriesAction) => {
     switch (action.type) {
-        case "SET_STORIES_SUCCESS":
+        case "STORIES_FETCH_SUCCESS":
             return {
                 ...state,
                 data: action.payload,
@@ -44,7 +46,7 @@ export function Fetch() {
         { data: [], isLoading: false, isError: false }
     );
 
-    const handleSearchSubmit = (event) => {
+    const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         setUrl(`${API_ENDPOINT}${searchTerm}`);
         event.preventDefault(); // prevent page refresh, HTML native behavior
     }
@@ -61,7 +63,7 @@ export function Fetch() {
         dispatchStories({ type: "STORIES_FETCH_INIT" });
         try {
             const result = await axios(url);
-            dispatchStories({ type: "SET_STORIES_SUCCESS", payload: result.data.hits });
+            dispatchStories({ type: "STORIES_FETCH_SUCCESS", payload: result.data.hits });
         } catch {
             dispatchStories({ type: "STORIES_FETCH_FAILURE" });
         }

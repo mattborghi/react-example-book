@@ -13,7 +13,7 @@ const getSumComments = (data) => {
 
 function App({ data, isLoading, isError, searchTerm, setSearchTerm, handleSearchSubmit, handleRemoveItem }) {
   console.log("B:App")
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   }
 
