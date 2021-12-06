@@ -75,6 +75,6 @@ export function Fetch() {
     }, [handleFetchStories]);
 
     return (
-        <App key={data} data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchSubmit={handleSearchSubmit} handleRemoveItem={handleRemoveItem} />
+        <App data={data} isLoading={isLoading} isError={isError} searchTerm={searchTerm} setSearchTerm={setSearchTerm} handleSearchSubmit={handleSearchSubmit} handleRemoveItem={handleRemoveItem} />
     );
 }

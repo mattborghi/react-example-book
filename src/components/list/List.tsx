@@ -43,7 +43,6 @@ function Item({ item, onRemoveItem } : ItemProps ) {
 }
 
 export function List({ values, onRemoveItem }: ListProps) {
-  console.log("B:List");
   return (
     <ul>
       {values.map((item) => {
