@@ -1,4 +1,4 @@
-import {Stories, Story} from '../list/List';
+import { Stories, Story } from "../list/List.types";
 
 interface StoriesFetchInitAction {
   type: "STORIES_FETCH_INIT";
@@ -15,14 +15,14 @@ interface StoriesRemoveAction {
   payload: Story;
 }
 
-export type StoriesState = { 
-    data: Stories;
-    isLoading: boolean;
-    isError: boolean;
+export type StoriesState = {
+  data: Stories;
+  isLoading: boolean;
+  isError: boolean;
 };
 
 export type StoriesAction =
-| StoriesFetchInitAction
-| StoriesFetchSuccessAction
-| StoriesFetchFailureAction
-| StoriesRemoveAction;
+  | StoriesFetchInitAction
+  | StoriesFetchSuccessAction
+  | StoriesFetchFailureAction
+  | StoriesRemoveAction;
