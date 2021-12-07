@@ -2,35 +2,12 @@ import { memo, useState } from "react";
 import { sortBy } from "lodash";
 
 import { Button } from "../../components/button/Button";
-
+import { ListProps, ItemProps, typeSorts } from "./List.types";
 import { ReactComponent as Check } from "../../assets/check.svg";
 
 import "./List.css";
 
-export type Story = {
-  objectID: string;
-  url: string;
-  title: string;
-  author: string;
-  num_comments: number;
-  points: number;
-};
-
-type ItemProps = {
-  item: Story;
-  onRemoveItem: (item: Story) => void;
-};
-
-export type Stories = Array<Story>;
-
-type ListProps = {
-  values: Stories;
-  onRemoveItem: (item: Story) => void;
-};
-
-type typeSorts = { [elementType: string]: (list: Stories) => Stories; };
-
-const SORTS : typeSorts = {
+const SORTS: typeSorts = {
   NONE: (list) => list,
   TITLE: (list) => sortBy(list, "title"),
   AUTHOR: (list) => sortBy(list, "author"),
@@ -58,13 +35,17 @@ export function Item({ item, onRemoveItem }: ItemProps) {
 }
 
 export function List({ values, onRemoveItem }: ListProps) {
-  const [sort, setSort] = useState<keyof typeof SORTS>("NONE");
+  const [sort, setSort] = useState<{sortKey: keyof typeof SORTS, isReverse: boolean}>({
+    sortKey: "NONE",
+    isReverse: false,
+  });
   const handleSort = (key: keyof typeof SORTS) => {
-    setSort(key);
+    const isReverse = sort.sortKey === key && !sort.isReverse;
+    setSort({ sortKey: key, isReverse });
   };
 
-  const sortFunction = SORTS[sort];
-  const sortedList = sortFunction(values);
+  const sortFunction = SORTS[sort.sortKey];
+  const sortedList = sort.isReverse ? sortFunction(values).reverse() : sortFunction(values);
 
   return (
     <div>

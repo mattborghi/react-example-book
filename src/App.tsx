@@ -2,7 +2,8 @@ import React, { useMemo } from "react";
 import "./App.css";
 
 import { SearchForm } from "./components/search_form/SearchForm";
-import { MemoizedList as List, Stories, Story } from "./components/list/List";
+import { MemoizedList as List } from "./components/list/List";
+import { Stories, Story} from "./components/list/List.types";
 
 const getSumComments = (data: Stories)  => {
   return data.reduce((acc, item) => {
