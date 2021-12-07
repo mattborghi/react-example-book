@@ -2,14 +2,10 @@
 
 exports[`item renders snapshot 1`] = `
 <li
-  className="item"
+  className="List item"
 >
   <span
-    style={
-      Object {
-        "width": "60%",
-      }
-    }
+    className="title"
   >
     <a
       href="https://www.google.com"
@@ -18,20 +14,22 @@ exports[`item renders snapshot 1`] = `
     </a>
   </span>
   <span
-    style={
-      Object {
-        "width": "30%",
-      }
-    }
+    className="author"
   >
     Jordan Walke
   </span>
   <span
-    style={
-      Object {
-        "width": "10%",
-      }
-    }
+    className="comments"
+  >
+    1
+  </span>
+  <span
+    className="points"
+  >
+    1
+  </span>
+  <span
+    className="actions"
   >
     <button
       className="button button_small"
