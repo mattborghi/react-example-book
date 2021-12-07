@@ -25,10 +25,10 @@ type ListProps = {
   onRemoveItem: (item: Story) => void;
 }
 
-function Item({ item, onRemoveItem } : ItemProps ) {
-  const { objectID, url, title, author } = item;
+export function Item({ item, onRemoveItem } : ItemProps ) {
+  const { url, title, author } = item;
   return (
-    <li className="item" key={objectID}>
+    <li className="item">
       <span style={{ width: "60%" }}>
         <a href={url}>{title}</a>
       </span>
