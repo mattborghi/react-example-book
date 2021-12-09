@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import axios from 'axios';
 
 import App from './App';
-import { List } from './components/list/List';
+import { List } from '../list/List';
 
 jest.mock('axios');
 
@@ -31,9 +31,11 @@ describe('App', () => {
   const AppProps = {
     data: data,
     isLoading: false,
-    isError: true,
+    isError: false,
+    urls: [],
     searchTerm: 'react',
     setSearchTerm: jest.fn(),
+    handleSearch: jest.fn(),
   };
 
   it('show expected title and name data', () => {
