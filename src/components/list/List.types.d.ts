@@ -7,7 +7,12 @@ export type Story = {
   points: number;
 };
 
-export type Stories = Array<Story>;
+export type Stories = {
+  data: Array<Story>,
+  page: number,
+  isLoading: boolean,
+  isError: boolean
+};
 
 export type ItemProps = {
   item: Story;
@@ -15,8 +20,8 @@ export type ItemProps = {
 };
 
 export type ListProps = {
-  values: Stories;
+  values: Array<Story>;
   onRemoveItem: (item: Story) => void;
 };
 
-export type typeSorts = { [elementType: string]: (list: Stories) => Stories };
+export type typeSorts = { [elementType: string]: (list: Array<Story>) => Array<Story> };

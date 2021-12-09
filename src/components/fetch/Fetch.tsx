@@ -1,19 +1,29 @@
 import axios from "axios";
 
 import React, { useEffect, useReducer, useState, useCallback } from "react";
-import App from "../../App";
+import App from "../app/App";
 import { useSemiPersistentState } from "../../hooks/useSemiPersistentState";
 
 import { StoriesAction, StoriesState } from "./action_types";
 
-export const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
+const API_BASE = "https://hn.algolia.com/api/v1";
+const API_SEARCH = "/search";
+export const PARAM_SEARCH = "query=";
+const PARAM_PAGE = "page=";
+
+const getUrl = (searchTerm: string, page: number) =>
+  `${API_BASE}${API_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`;
 
 const storiesReducer = (state: StoriesState, action: StoriesAction) => {
   switch (action.type) {
     case "STORIES_FETCH_SUCCESS":
       return {
         ...state,
-        data: action.payload,
+        data:
+          action.payload.page === 0
+            ? action.payload.list
+            : state.data.concat(action.payload.list),
+        page: action.payload.page,
         isLoading: false,
         isError: false,
       };
@@ -41,23 +51,23 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
   }
 };
 
-const getUrl = (searchTerm: string) => `${API_ENDPOINT}${searchTerm}`;
-
 export function Fetch() {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("seach", "React");
-  const [urls, setUrls] = useState([getUrl(searchTerm)]);
-  const [{ data, isLoading, isError }, dispatchStories] = useReducer(
-    storiesReducer,
-    { data: [], isLoading: false, isError: false }
-  );
+  const [urls, setUrls] = useState([getUrl(searchTerm, 0)]);
+  const [stories, dispatchStories] = useReducer(storiesReducer, {
+    data: [],
+    page: 0,
+    isLoading: false,
+    isError: false,
+  });
 
-  const handleSearch = (searchTerm: string) => {
-    const url = getUrl(searchTerm);
+  const handleSearch = (searchTerm: string, page: number) => {
+    const url = getUrl(searchTerm, page);
     setUrls(urls.concat(url));
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    handleSearch(searchTerm);
+    handleSearch(searchTerm, 0);
     event.preventDefault(); // prevent page refresh, HTML native behavior
   };
 
@@ -75,7 +85,10 @@ export function Fetch() {
       const result = await axios(lastUrl);
       dispatchStories({
         type: "STORIES_FETCH_SUCCESS",
-        payload: result.data.hits,
+        payload: {
+          list: result.data.hits,
+          page: result.data.page,
+        },
       });
     } catch {
       dispatchStories({ type: "STORIES_FETCH_FAILURE" });
@@ -89,9 +102,7 @@ export function Fetch() {
 
   return (
     <App
-      data={data}
-      isLoading={isLoading}
-      isError={isError}
+      stories={stories}
       searchTerm={searchTerm}
       urls={urls}
       setSearchTerm={setSearchTerm}
